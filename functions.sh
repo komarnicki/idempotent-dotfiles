@@ -19,6 +19,8 @@ function copy_files_to_home_directory() {
         --exclude=".gitignore" \
         --exclude="bootstrap.sh" \
         --exclude="functions.sh" \
+        --exclude="LICENSE" \
+        --exclude="README.md" \
         . ~
 
     mark_as_done
