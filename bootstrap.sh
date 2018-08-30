@@ -17,7 +17,7 @@ if [ "$1" == "--force" ] || [ "$1" == "-f" ]; then
     deploy
 else
     echo "Running this script will override certain files in your home directory."
-    read -p "Do you want to proceed? [y/N] " response
+    read -p "Do you want to proceed? [y/N]" response
 
     if [ "$response" == "Y" ] || [ "$response" == "y" ]; then
         deploy
