@@ -26,6 +26,7 @@ function copy_files_to_home_directory() {
 
 function set_ssh_directory() {
     echo "Setting up .ssh directory."
+    mkdir -p ~/.ssh/sockets
 
     success "Done"
 }
