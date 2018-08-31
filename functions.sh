@@ -5,9 +5,7 @@ if [ -z "$bootstrap" ]; then
     exit 1
 fi
 
-function mark_as_done() {
-    echo "Done."
-}
+source helpers.sh
 
 function copy_files_to_home_directory() {
     echo "Copying files to your home directory."
@@ -23,16 +21,18 @@ function copy_files_to_home_directory() {
         --exclude="README.md" \
         . ~
 
-    mark_as_done
+    success "Done"
 }
 
 function set_ssh_directory() {
     echo "Setting up .ssh directory."
 
-    mark_as_done
+    success "Done"
 }
 
 function deploy() {
     copy_files_to_home_directory
     set_ssh_directory
+
+    success "All done 🍺"
 }

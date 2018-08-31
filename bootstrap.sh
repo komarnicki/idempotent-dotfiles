@@ -10,20 +10,38 @@ cd "$(dirname "${BASH_SOURCE}")"
 
 source functions.sh
 
-# Keep everything up to date
-#git pull origin master
+should_pull=true
+should_force=false
 
-if [ "$1" == "--force" ] || [ "$1" == "-f" ]; then
+# Adjust certain flags based on given arguments
+for arg in "$@"
+do
+    if [ "$arg" == "--no-update" ]; then
+        should_pull=false
+        warning "The '--no-update' flag detected. Pull from origin master skipped."
+    fi
+
+    if [ "$arg" == "--force" ] || [ "$arg" == "-f" ]; then
+        should_force=true
+    fi
+done
+
+# Keep everything up to date if possible
+if [ "$should_pull" = true ]; then
+    git pull origin master
+fi
+
+# Deploy the dotfiles
+if [ "$should_force" = true ]; then
     deploy
 else
     echo "Running this script will override certain files in your home directory."
-    read -p "Do you want to proceed? [y/N]" response
+    read -p "Do you want to proceed? [y/N] " response
 
     if [ "$response" == "Y" ] || [ "$response" == "y" ]; then
         deploy
     else
-        # Explicitly indicate that nothing has been done
-        echo "Nothing happened."
+        success "Nothing happened"
     fi
 fi
 
