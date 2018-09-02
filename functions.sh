@@ -42,7 +42,7 @@ function adjust_ssh_directory() {
 }
 
 function adjust_macos() {
-    path=~/.macos/.adjust.sh
+    path=~/.macos/.macos.sh
 
     if [ -f ${path} ]; then
         echo "Adjusting macOS settings."
