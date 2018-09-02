@@ -20,6 +20,9 @@ while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 sudo nvram SystemAudioVolume=" "
 #sudo nvram -d SystemAudioVolume # reset
 
+# Restart automatically if the computer freezes
+sudo systemsetup -setrestartfreeze on
+
 # Reduce transparency
 # System Preferences -> Accessibility -> Display -> Reduce transparency
 defaults write com.apple.universalaccess reduceTransparency -bool true
@@ -57,7 +60,7 @@ defaults write com.apple.LaunchServices LSQuarantine -bool false
 #/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -kill -r -domain local -domain system -domain user
 
 # Disable Automatic Termination
-defaults write -g NSDisableAutomaticTermination -bool yes
+defaults write NSGlobalDomain NSDisableAutomaticTermination -bool true
 #defaults delete NSDisableAutomaticTermination # reset
 
 # Disable Crash Reporter
@@ -68,5 +71,39 @@ defaults write com.apple.CrashReporter DialogType -string "none"
 # It's safe to remove the content of this directory since it contains only logs
 # After some time, it may consume a significant amount of disk space
 sudo rm -rf ~/Library/Logs/*
+
+# Show IP address, hostname and OS version when clicking the clock in the login window
+sudo defaults write /Library/Preferences/com.apple.loginwindow AdminHostInfo HostName
+#sudo defaults delete /Library/Preferences/com.apple.loginwindow AdminHostInfo # reset
+
+# Disable automatic spelling
+# System Preferences -> Keyboard -> Text -> Correct spelling automatically
+defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
+
+# Disable automatic capitalization
+# System Preferences -> Keyboard -> Text -> Capitalize words automatically
+defaults write NSGlobalDomain NSAutomaticCapitalizationEnabled -bool false
+
+# Disable smart dashes, period substitution and smart quotes
+defaults write NSGlobalDomain NSAutomaticDashSubstitutionEnabled -bool false
+defaults write NSGlobalDomain NSAutomaticPeriodSubstitutionEnabled -bool false
+defaults write NSGlobalDomain NSAutomaticQuoteSubstitutionEnabled -bool false
+
+# Set a solid black colour as background wallpaper on every display currently connected
+cp ./solid_black_wallpaper.png ~/Pictures/solid_black_wallpaper.png
+osascript -e 'tell application "System Events" to tell every desktop to set picture to "~/Pictures/solid_black_wallpaper.png"'
+
+# Set keyboard repeat speed
+# System Preferences -> Keyboard -> Keyboard
+# Default GUI values for KeyRepeat are: 120, 90, 60, 30, 12, 6, 2 (lower value, faster speed)
+# Default GUI values for InitialKeyRepeat are: 120, 94, 68, 35, 25, 15 (lower value, faster speed)
+defaults write NSGlobalDomain KeyRepeat -int 2
+defaults write NSGlobalDomain InitialKeyRepeat -int 15
+
+# Language and text format
+defaults write NSGlobalDomain AppleLanguages -array "en" "pl"
+defaults write NSGlobalDomain AppleLocale -string "en_AU@currency=AUD" # "en_PL@currency=PLN"
+defaults write NSGlobalDomain AppleMeasurementUnits -string "Centimeters"
+defaults write NSGlobalDomain AppleMetricUnits -bool true
 
 killall Dock

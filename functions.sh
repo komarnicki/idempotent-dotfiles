@@ -29,6 +29,7 @@ function copy_files_to_home_directory() {
         --exclude="functions.sh" \
         --exclude="LICENSE" \
         --exclude="README.md" \
+        --exclude="solid_black_wallpaper.png" \
         . ~
 
     success "Done"
