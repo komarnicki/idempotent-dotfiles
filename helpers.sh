@@ -21,13 +21,13 @@ function success() {
         msg="OK"
     fi
 
-    echo "${color_green}${msg}${color_reset}"
+    echo -e "${color_green}${msg}${color_reset}"
 }
 
 function warning() {
-    echo "💡 ${color_yellow}${1}${color_reset}"
+    echo -e "💡 ${color_yellow}${1}${color_reset}"
 }
 
 function error() {
-    echo "🔥 ${color_red}${1}${color_reset}"
+    echo -e "🔥 ${color_red}${1}${color_reset}"
 }
