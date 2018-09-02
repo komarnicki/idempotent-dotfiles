@@ -124,4 +124,121 @@ defaults write com.apple.screencapture type -string "png"
 defaults write com.apple.screencapture location "$HOME/Documents/Screenshots"
 defaults write com.apple.screencapture disable-shadow -bool true
 
-killall Dock
+# Finder
+# Disable all animations
+defaults write com.apple.finder DisableAllAnimations -bool true
+# Default location for newly opened windows
+defaults write com.apple.finder NewWindowTarget -string "PfLo"
+defaults write com.apple.finder NewWindowTargetPath -string "file://${HOME}/"
+# Toggle visibility of icons for hard drives, servers, and removable media on the desktop
+defaults write com.apple.finder ShowExternalHardDrivesOnDesktop -bool false
+defaults write com.apple.finder ShowHardDrivesOnDesktop -bool false
+defaults write com.apple.finder ShowMountedServersOnDesktop -bool false
+defaults write com.apple.finder ShowRemovableMediaOnDesktop -bool false
+# Show hidden files, all extensions, status bar and path bar
+defaults write com.apple.finder AppleShowAllFiles -bool true
+defaults write NSGlobalDomain AppleShowAllExtensions -bool true
+defaults write com.apple.finder ShowStatusBar -bool true
+defaults write com.apple.finder ShowPathbar -bool true
+# Display full POSIX path as Finder window title
+defaults write com.apple.finder _FXShowPosixPathInTitle -bool true
+# Search the current folder by default
+defaults write com.apple.finder FXDefaultSearchScope -string "SCcf"
+# Don't warn when changing a file extension
+defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false
+# Keep folders on top when sorting by name
+defaults write com.apple.finder _FXSortFoldersFirst -bool true
+
+# Avoid creating .DS_Store files on network or USB volumes
+defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
+defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
+
+# Disable disk image verification
+defaults write com.apple.frameworks.diskimages skip-verify -bool true
+defaults write com.apple.frameworks.diskimages skip-verify-locked -bool true
+defaults write com.apple.frameworks.diskimages skip-verify-remote -bool true
+
+# Automatically open a new Finder window when a volume is mounted
+defaults write com.apple.frameworks.diskimages auto-open-ro-root -bool true
+defaults write com.apple.frameworks.diskimages auto-open-rw-root -bool true
+defaults write com.apple.finder OpenWindowForNewRemovableDisk -bool true
+
+# Disable window opening and closing animation
+defaults write NSGlobalDomain NSAutomaticWindowAnimationsEnabled -bool false
+
+# Use list view in all Finder windows by default
+# Other view modes:
+# Flwv - Cover Flow View
+# Nlsv - List View
+# clmv - Column View
+# icnv - Icon View
+defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv"
+
+# Warn before emptying the Trash
+defaults write com.apple.finder WarnOnEmptyTrash -bool true
+
+# Show the ~/Library folder
+sudo chflags nohidden ~/Library
+
+# Show the /Volumes folder
+sudo chflags nohidden /Volumes
+
+# Expand the following File Info panes:
+defaults write com.apple.finder FXInfoPanesExpanded -dict \
+    General -bool true \
+	OpenWith -bool true \
+	Privileges -bool true
+
+# Dock
+# System Preferences -> Dock
+# Enable highlight hover effect for the grid view of a stack (Dock)
+defaults write com.apple.dock mouse-over-hilite-stack -bool true
+# Set the icon size of Dock items
+defaults write com.apple.dock tilesize -int 36
+# Set minimize window effect
+defaults write com.apple.dock mineffect -string "scale"
+# Minimize windows into their application's icon
+defaults write com.apple.dock minimize-to-application -bool true
+# Enable spring loading for all Dock items
+defaults write com.apple.dock enable-spring-load-actions-on-all-items -bool true
+# Show indicators for open applications
+defaults write com.apple.dock show-process-indicators -bool true
+# Don't animate opening applications
+defaults write com.apple.dock launchanim -bool false
+# Set Dock auto-hide state and delay
+defaults write com.apple.dock autohide -bool false
+defaults write com.apple.dock autohide-delay -float 0
+defaults write com.apple.dock autohide-time-modifier -float 0
+
+# Hot corners
+# Possible values:
+#  0 - no-op
+#  2 - Mission Control
+#  3 - Show application windows
+#  4 - Desktop
+#  5 - Start screen saver
+#  6 - Disable screen saver
+#  7 - Dashboard
+# 10 - Put display to sleep
+# 11 - Launchpad
+# 12 - Notification Center
+
+# Hot corner (top-left)
+defaults write com.apple.dock wvous-tl-corner -int 0
+defaults write com.apple.dock wvous-tl-modifier -int 0
+# Hot corner (top-right)
+defaults write com.apple.dock wvous-tr-corner -int 0
+defaults write com.apple.dock wvous-tr-modifier -int 0
+# Hot corner (bottom-left)
+defaults write com.apple.dock wvous-bl-corner -int 2
+defaults write com.apple.dock wvous-bl-modifier -int 0
+# Hot corner (bottom-right)
+defaults write com.apple.dock wvous-br-corner -int 4
+defaults write com.apple.dock wvous-br-modifier -int 0
+
+for app in \
+	"Dock" \
+	"Finder";
+	do
+	killall "${app}" &> /dev/null
+done
