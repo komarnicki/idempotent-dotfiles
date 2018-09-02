@@ -90,7 +90,7 @@ defaults write NSGlobalDomain NSAutomaticPeriodSubstitutionEnabled -bool false
 defaults write NSGlobalDomain NSAutomaticQuoteSubstitutionEnabled -bool false
 
 # Set a solid black colour as background wallpaper on every display currently connected
-cp ./solid_black_wallpaper.png ~/Pictures/solid_black_wallpaper.png
+cp ./solid_black_wallpaper.png $HOME/Pictures/solid_black_wallpaper.png
 osascript -e 'tell application "System Events" to tell every desktop to set picture to "~/Pictures/solid_black_wallpaper.png"'
 
 # Set keyboard repeat speed
@@ -105,5 +105,23 @@ defaults write NSGlobalDomain AppleLanguages -array "en" "pl"
 defaults write NSGlobalDomain AppleLocale -string "en_AU@currency=AUD" # "en_PL@currency=PLN"
 defaults write NSGlobalDomain AppleMeasurementUnits -string "Centimeters"
 defaults write NSGlobalDomain AppleMetricUnits -bool true
+
+# Show input menu in login window
+# System Preferences -> Users & Groups -> Login Options -> Show input menu in login window
+sudo defaults write /Library/Preferences/com.apple.loginwindow showInputMenu -bool true
+
+# Set the timezone
+sudo systemsetup -settimezone "Australia/Brisbane" > /dev/null # "Europe/Warsaw"
+
+# Require password immediately after sleep or screen saver begins
+defaults write com.apple.screensaver askForPassword -int 1
+defaults write com.apple.screensaver askForPasswordDelay -int 0
+
+# Screenshots
+mkdir -p $HOME/Documents/Screenshots
+defaults write com.apple.screencapture type -string "png"
+# Put screenshots under Documents so that everything will be synced with iCloud if proper setting is enabled under iCloud
+defaults write com.apple.screencapture location "$HOME/Documents/Screenshots"
+defaults write com.apple.screencapture disable-shadow -bool true
 
 killall Dock

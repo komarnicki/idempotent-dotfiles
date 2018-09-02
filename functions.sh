@@ -30,7 +30,7 @@ function copy_files_to_home_directory() {
         --exclude="LICENSE" \
         --exclude="README.md" \
         --exclude="solid_black_wallpaper.png" \
-        . ~
+        . $HOME
 
     success "Done"
 }
@@ -43,7 +43,7 @@ function adjust_ssh_directory() {
 }
 
 function adjust_macos() {
-    path=~/.macos/.macos.sh
+    path=$HOME/.macos/.macos.sh
 
     if [ -f ${path} ]; then
         echo "Adjusting macOS settings."
