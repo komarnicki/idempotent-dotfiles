@@ -15,6 +15,8 @@ sudo -v
 while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 
 ################################################################################
+# Low level system settings
+################################################################################
 
 # Disable the boot sound effect
 sudo nvram SystemAudioVolume=" "
@@ -23,10 +25,25 @@ sudo nvram SystemAudioVolume=" "
 # Restart automatically if the computer freezes
 sudo systemsetup -setrestartfreeze on
 
+################################################################################
+# Visual appearance & general settings
+################################################################################
+
 # Reduce transparency
 # System Preferences -> Accessibility -> Display -> Reduce transparency
 defaults write com.apple.universalaccess reduceTransparency -bool true
-#
+
+# Enable HiDPI resolutions in Display Preference Pane
+sudo defaults write /Library/Preferences/com.apple.windowserver.plist DisplayResolutionEnabled -bool true
+#sudo defaults delete /Library/Preferences/com.apple.windowserver.plist DisplayResolutionEnabled # reset
+
+# Enable subpixel font rendering on non-Apple LCDs
+# Reference link: https://github.com/kevinSuttle/macOS-Defaults/issues/17
+defaults write NSGlobalDomain AppleFontSmoothing -int 2
+
+# Disable window opening and closing animation
+defaults write NSGlobalDomain NSAutomaticWindowAnimationsEnabled -bool false
+
 # Set highlight color to blue (HEX b3dbfd / RGB 179,216,253)
 # System Preferences -> General -> Highlight color
 # Each decimal value is a RGB (from 0 to 255) divided by 255
@@ -76,36 +93,6 @@ sudo rm -rf ~/Library/Logs/*
 sudo defaults write /Library/Preferences/com.apple.loginwindow AdminHostInfo HostName
 #sudo defaults delete /Library/Preferences/com.apple.loginwindow AdminHostInfo # reset
 
-# Disable automatic spelling
-# System Preferences -> Keyboard -> Text -> Correct spelling automatically
-defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
-
-# Disable automatic capitalization
-# System Preferences -> Keyboard -> Text -> Capitalize words automatically
-defaults write NSGlobalDomain NSAutomaticCapitalizationEnabled -bool false
-
-# Disable smart dashes, period substitution and smart quotes
-defaults write NSGlobalDomain NSAutomaticDashSubstitutionEnabled -bool false
-defaults write NSGlobalDomain NSAutomaticPeriodSubstitutionEnabled -bool false
-defaults write NSGlobalDomain NSAutomaticQuoteSubstitutionEnabled -bool false
-
-# Set a solid black colour as background wallpaper on every display currently connected
-cp ./solid_black_wallpaper.png $HOME/Pictures/solid_black_wallpaper.png
-osascript -e 'tell application "System Events" to tell every desktop to set picture to "~/Pictures/solid_black_wallpaper.png"'
-
-# Set keyboard repeat speed
-# System Preferences -> Keyboard -> Keyboard
-# Default GUI values for KeyRepeat are: 120, 90, 60, 30, 12, 6, 2 (lower value, faster speed)
-# Default GUI values for InitialKeyRepeat are: 120, 94, 68, 35, 25, 15 (lower value, faster speed)
-defaults write NSGlobalDomain KeyRepeat -int 2
-defaults write NSGlobalDomain InitialKeyRepeat -int 15
-
-# Set language and text format
-defaults write NSGlobalDomain AppleLanguages -array "en" "pl"
-defaults write NSGlobalDomain AppleLocale -string "en_AU@currency=AUD" # "en_PL@currency=PLN"
-defaults write NSGlobalDomain AppleMeasurementUnits -string "Centimeters"
-defaults write NSGlobalDomain AppleMetricUnits -bool true
-
 # Set the timezone
 sudo systemsetup -settimezone "Australia/Brisbane" > /dev/null # "Europe/Warsaw"
 
@@ -124,7 +111,67 @@ defaults write com.apple.screencapture type -string "png"
 defaults write com.apple.screencapture location "$HOME/Documents/Screenshots"
 defaults write com.apple.screencapture disable-shadow -bool true
 
+################################################################################
+# Wallpaper
+################################################################################
+
+# Set a solid black colour as background wallpaper on every display currently connected
+cp ./solid_black_wallpaper.png $HOME/Pictures/solid_black_wallpaper.png
+osascript -e 'tell application "System Events" to tell every desktop to set picture to "~/Pictures/solid_black_wallpaper.png"'
+
+################################################################################
+# Keyboard
+################################################################################
+
+# Set keyboard repeat speed
+# System Preferences -> Keyboard -> Keyboard
+# Default GUI values for KeyRepeat are: 120, 90, 60, 30, 12, 6, 2 (lower value, faster speed)
+# Default GUI values for InitialKeyRepeat are: 120, 94, 68, 35, 25, 15 (lower value, faster speed)
+defaults write NSGlobalDomain KeyRepeat -int 2
+defaults write NSGlobalDomain InitialKeyRepeat -int 15
+
+# Disable automatic spelling
+# System Preferences -> Keyboard -> Text -> Correct spelling automatically
+defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
+
+# Disable automatic capitalization
+# System Preferences -> Keyboard -> Text -> Capitalize words automatically
+defaults write NSGlobalDomain NSAutomaticCapitalizationEnabled -bool false
+
+# Disable smart dashes, period substitution and smart quotes
+defaults write NSGlobalDomain NSAutomaticDashSubstitutionEnabled -bool false
+defaults write NSGlobalDomain NSAutomaticPeriodSubstitutionEnabled -bool false
+defaults write NSGlobalDomain NSAutomaticQuoteSubstitutionEnabled -bool false
+
+# Enable full keyboard access for all controls
+defaults write NSGlobalDomain AppleKeyboardUIMode -int 3
+
+# Disable press-and-hold for accents
+defaults write -g ApplePressAndHoldEnabled -bool false
+
+################################################################################
+# Mouse & Trackpad
+################################################################################
+
+# Enable tap to click for this user and for the login screen
+defaults write com.apple.AppleMultitouchTrackpad Clicking -int 1
+defaults -currentHost write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
+defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
+
+################################################################################
+# Regional settings
+################################################################################
+
+# Set language and text format
+defaults write NSGlobalDomain AppleLanguages -array "en" "pl"
+defaults write NSGlobalDomain AppleLocale -string "en_AU@currency=AUD" # "en_PL@currency=PLN"
+defaults write NSGlobalDomain AppleMeasurementUnits -string "Centimeters"
+defaults write NSGlobalDomain AppleMetricUnits -bool true
+
+################################################################################
 # Finder
+################################################################################
+
 # Disable all animations
 defaults write com.apple.finder DisableAllAnimations -bool true
 # Default location for newly opened windows
@@ -163,9 +210,6 @@ defaults write com.apple.frameworks.diskimages auto-open-ro-root -bool true
 defaults write com.apple.frameworks.diskimages auto-open-rw-root -bool true
 defaults write com.apple.finder OpenWindowForNewRemovableDisk -bool true
 
-# Disable window opening and closing animation
-defaults write NSGlobalDomain NSAutomaticWindowAnimationsEnabled -bool false
-
 # Use list view in all Finder windows by default
 # Other view modes:
 # Flwv - Cover Flow View
@@ -189,13 +233,19 @@ defaults write com.apple.finder FXInfoPanesExpanded -dict \
     OpenWith -bool true \
     Privileges -bool true
 
+################################################################################
 # Menu bar
+################################################################################
+
 # System Preferences -> General -> Automatically hide and show the menu bar
 # On High Sierra killing Finder is not enough to see this change immediately,
 # every app should be restarted for menu bar to behave correctly
 defaults write NSGlobalDomain _HIHideMenuBar -bool false
 
+################################################################################
 # Dock
+################################################################################
+
 # System Preferences -> Dock
 # Below command restores Dock to the default state, I don't want to use it
 # but it's good to keep it as a reference
@@ -219,7 +269,10 @@ defaults write com.apple.dock autohide -bool false
 defaults write com.apple.dock autohide-delay -float 0
 defaults write com.apple.dock autohide-time-modifier -float 0
 
+################################################################################
 # Hot corners
+################################################################################
+
 # Possible values:
 #  0 - no-op
 #  2 - Mission Control
@@ -244,6 +297,8 @@ defaults write com.apple.dock wvous-bl-modifier -int 0
 # Hot corner (bottom-right)
 defaults write com.apple.dock wvous-br-corner -int 4
 defaults write com.apple.dock wvous-br-modifier -int 0
+
+################################################################################
 
 for app in \
     "Dock" \
