@@ -189,6 +189,12 @@ defaults write com.apple.finder FXInfoPanesExpanded -dict \
     OpenWith -bool true \
     Privileges -bool true
 
+# Menu bar
+# System Preferences -> General -> Automatically hide and show the menu bar
+# On High Sierra killing Finder is not enough to see this change immediately,
+# every app should be restarted for menu bar to behave correctly
+defaults write NSGlobalDomain _HIHideMenuBar -bool false
+
 # Dock
 # System Preferences -> Dock
 # Below command restores Dock to the default state, I don't want to use it
