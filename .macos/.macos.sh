@@ -100,18 +100,18 @@ osascript -e 'tell application "System Events" to tell every desktop to set pict
 defaults write NSGlobalDomain KeyRepeat -int 2
 defaults write NSGlobalDomain InitialKeyRepeat -int 15
 
-# Language and text format
+# Set language and text format
 defaults write NSGlobalDomain AppleLanguages -array "en" "pl"
 defaults write NSGlobalDomain AppleLocale -string "en_AU@currency=AUD" # "en_PL@currency=PLN"
 defaults write NSGlobalDomain AppleMeasurementUnits -string "Centimeters"
 defaults write NSGlobalDomain AppleMetricUnits -bool true
 
+# Set the timezone
+sudo systemsetup -settimezone "Australia/Brisbane" > /dev/null # "Europe/Warsaw"
+
 # Show input menu in login window
 # System Preferences -> Users & Groups -> Login Options -> Show input menu in login window
 sudo defaults write /Library/Preferences/com.apple.loginwindow showInputMenu -bool true
-
-# Set the timezone
-sudo systemsetup -settimezone "Australia/Brisbane" > /dev/null # "Europe/Warsaw"
 
 # Require password immediately after sleep or screen saver begins
 defaults write com.apple.screensaver askForPassword -int 1
@@ -186,16 +186,19 @@ sudo chflags nohidden /Volumes
 # Expand the following File Info panes:
 defaults write com.apple.finder FXInfoPanesExpanded -dict \
     General -bool true \
-	OpenWith -bool true \
-	Privileges -bool true
+    OpenWith -bool true \
+    Privileges -bool true
 
 # Dock
 # System Preferences -> Dock
+# Below command restores Dock to the default state, I don't want to use it
+# but it's good to keep it as a reference
+#defaults delete com.apple.dock
 # Enable highlight hover effect for the grid view of a stack (Dock)
 defaults write com.apple.dock mouse-over-hilite-stack -bool true
 # Set the icon size of Dock items
-defaults write com.apple.dock tilesize -int 36
-# Set minimize window effect
+defaults write com.apple.dock tilesize -int 48
+# Set minimize window effect to "scale" (other option is "genie")
 defaults write com.apple.dock mineffect -string "scale"
 # Minimize windows into their application's icon
 defaults write com.apple.dock minimize-to-application -bool true
@@ -203,7 +206,7 @@ defaults write com.apple.dock minimize-to-application -bool true
 defaults write com.apple.dock enable-spring-load-actions-on-all-items -bool true
 # Show indicators for open applications
 defaults write com.apple.dock show-process-indicators -bool true
-# Don't animate opening applications
+# Don't animate (bounce) opening applications
 defaults write com.apple.dock launchanim -bool false
 # Set Dock auto-hide state and delay
 defaults write com.apple.dock autohide -bool false
@@ -237,8 +240,10 @@ defaults write com.apple.dock wvous-br-corner -int 4
 defaults write com.apple.dock wvous-br-modifier -int 0
 
 for app in \
-	"Dock" \
-	"Finder";
-	do
-	killall "${app}" &> /dev/null
+    "Dock" \
+    "Finder" \
+    "SystemUIServer" \
+    ;
+
+    do killall "${app}" &> /dev/null
 done
