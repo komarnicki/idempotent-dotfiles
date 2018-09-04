@@ -5,6 +5,9 @@ if [ -z "$bootstrap" ]; then
     exit 1
 fi
 
+# Make sure the .ssh exists in user's home directory
+mkdir -p ~/.ssh/
+
 task_start "SSH: Copy configuration file"
 cp -r ssh/config ~/.ssh/config
 task_stop
