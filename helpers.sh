@@ -15,19 +15,10 @@ color_reset='\033[0m'
 color_white='\033[0;37m'
 color_yellow='\033[0;33m'
 
-function success() {
-    msg=$1
-    if [ -z "$msg" ]; then
-        msg="OK"
-    fi
-
-    echo -e "${color_green}${msg}${color_reset}"
+function task_start() {
+    printf "${color_green}→${color_reset} ${1}"
 }
 
-function warning() {
-    echo -e "💡 ${color_yellow}${1}${color_reset}"
-}
-
-function error() {
-    echo -e "🔥 ${color_red}${1}${color_reset}"
+function task_stop() {
+    printf " ${color_red}❤︎${color_reset} \n"
 }

@@ -8,6 +8,13 @@ export bootstrap=1
 # Go to the directory of the bootstrap script
 cd "$(dirname "${BASH_SOURCE}")"
 
+# Ask for the administrator's password
+sudo -v
+
+# Update existing sudo timestamp until this script has finished
+while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+
+source helpers.sh
 source functions.sh
 
 should_pull=true

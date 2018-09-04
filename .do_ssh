@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+if [ -z "$bootstrap" ]; then
+    echo "This file is not intended to be called directly."
+    exit 1
+fi
+
+task_start "SSH: Creating place for sockets under your .ssh directory"
+mkdir -p ~/.ssh/sockets
+task_stop
