@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+if [ -z "$bootstrap" ]; then
+    echo "This file is not intended to be called directly."
+    exit 1
+fi
+
+task_start "Sublime Text: Adjust settings"
+# Reference link to exclude elements from indexing: https://stackoverflow.com/a/35149924/4197938
+cp -r sublime_text/Preferences.sublime-settings ~/Library/Application\ Support/Sublime\ Text\ 3/Packages/User/Preferences.sublime-settings
+task_stop
+
+killall "Sublime Text" &> /dev/null

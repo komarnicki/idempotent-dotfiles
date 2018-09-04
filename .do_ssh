@@ -5,6 +5,10 @@ if [ -z "$bootstrap" ]; then
     exit 1
 fi
 
-task_start "SSH: Creating place for sockets under your .ssh directory"
+task_start "SSH: Copy configuration file"
+cp -r ssh/config ~/.ssh/config
+task_stop
+
+task_start "SSH: Create place for sockets"
 mkdir -p ~/.ssh/sockets
 task_stop

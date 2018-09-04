@@ -25,7 +25,6 @@ for arg in "$@"
 do
     if [ "$arg" == "--no-update" ]; then
         should_pull=false
-        warning "The '--no-update' flag detected. Pull from origin master skipped."
     fi
 
     if [ "$arg" == "--force" ] || [ "$arg" == "-f" ]; then
@@ -42,13 +41,13 @@ fi
 if [ "$should_force" = true ]; then
     deploy
 else
-    echo "Running this script will override certain files in your home directory."
+    printf "Running this script will override certain files in your home directory.\n"
     read -p "Do you want to proceed? [y/N] " response
 
     if [ "$response" == "Y" ] || [ "$response" == "y" ]; then
         deploy
     else
-        success "Nothing happened"
+        printf "Nothing happened\n"
     fi
 fi
 
