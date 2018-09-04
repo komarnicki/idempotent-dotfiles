@@ -5,11 +5,14 @@ if [ -z "$bootstrap" ]; then
     exit 1
 fi
 
-# Reference link to exclude elements from indexing: https://stackoverflow.com/a/35149924/4197938
-
-task_start "Sublime Text: Adjust settings"
 mkdir -p ~/Library/Application\ Support/Sublime\ Text\ 3/Packages/User
+
+task_start "Sublime Text 3: Adjust settings"
 cp -r sublime_text/Preferences.sublime-settings ~/Library/Application\ Support/Sublime\ Text\ 3/Packages/User/Preferences.sublime-settings
+task_stop
+
+task_start "Sublime Text 3: Adjust Key Bindings"
+cp -r sublime_text/Default\ \(OSX\).sublime-keymap ~/Library/Application\ Support/Sublime\ Text\ 3/Packages/User/Default\ \(OSX\).sublime-keymap
 task_stop
 
 killall "Sublime Text" &> /dev/null
