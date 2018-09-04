@@ -8,5 +8,6 @@ fi
 function deploy() {
     source .do_macos
     source .do_ssh
+    source .do_spectacle
     source .do_sublime_text
 }

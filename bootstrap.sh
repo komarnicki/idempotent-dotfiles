@@ -15,7 +15,6 @@ sudo -v
 while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 
 source helpers.sh
-source functions.sh
 
 should_pull=true
 should_force=false
@@ -38,6 +37,8 @@ if [ "$should_pull" = true ]; then
 fi
 
 # Deploy the dotfiles
+source deploy.sh
+
 if [ "$should_force" = true ]; then
     deploy
 else
