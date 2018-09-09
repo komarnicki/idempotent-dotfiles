@@ -13,6 +13,7 @@ osascript -e 'tell application "System Preferences" to quit'
 #-------------------------------------------------------------------------------
 
 task_start "macOS: Disable the boot sound effect"
+# Apparently this does not work on High Sierra
 sudo nvram SystemAudioVolume=" "
 # sudo nvram -d SystemAudioVolume
 task_stop
