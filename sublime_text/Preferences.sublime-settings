@@ -1,7 +1,9 @@
 {
 	"bold_folder_labels": true,
+	"create_window_at_startup": false,
 	"font_face": "Monaco",
 	"font_size": 14,
+	"highlight_modified_tabs": true,
 	"index_exclude_patterns":
 	[
 		".git",
