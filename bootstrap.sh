@@ -8,6 +8,9 @@ export bootstrap=1
 # Go to the directory of the bootstrap script
 cd "$(dirname "${BASH_SOURCE}")"
 
+timestamp=$(date +%F_%T | sed -e 's/-//g' -e 's/://g')
+log_file="./idempotent-dotfiles-${timestamp}.log"
+
 # Ask for the administrator's password
 sudo -v
 
@@ -33,20 +36,20 @@ done
 
 # Keep everything up to date if possible
 if [ "$should_pull" = true ]; then
-    git pull origin master
+    git pull origin master | tee -a ${log_file}
 fi
 
-# Deploy the dotfiles
 source deploy.sh
 
+# Deploy the dotfiles
 if [ "$should_force" = true ]; then
-    deploy
+    deploy | tee -a ${log_file}
 else
     printf "Running this script will override certain files in your home directory.\n"
     read -p "Do you want to proceed? [y/N] " response
 
     if [ "$response" == "Y" ] || [ "$response" == "y" ]; then
-        deploy
+        deploy | tee -a ${log_file}
     else
         printf "Nothing happened\n"
     fi
