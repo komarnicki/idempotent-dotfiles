@@ -6,7 +6,7 @@ Host *
     # Any subsequent connection to this host will use it instead of creating a new one.
     # Huge speed improvement when obtaining a connection handshake.
     ControlMaster auto
-    ControlPath ~/.ssh/sockets/%r@%h:%p
+    ControlPath ~/.ssh/sockets/%C
     ControlPersist 3600
 
     # Fix the issue where macOS Sierra constantly prompts for password when trying
